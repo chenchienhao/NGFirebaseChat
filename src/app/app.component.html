@@ -1,9 +1,42 @@
-<div class="row columns">
-  <button (click)="login()" *ngIf="!name">Login With Facebook</button>
-    <div class="chat-container" *ngFor="let item of items | async">
-      <a href="#">{{item.name}}</a>
+<div class="container">
+  <div class="chat-container" *ngFor="let item of items | async">
+    <a href="#">{{item.name}}</a>
+
+    <p>{{item.message}}</p>
+  </div>
+  <button class="btn btn-default" (click)="login()" *ngIf="!name">Login With Facebook</button>
+  <tabset *ngIf="name">
+    <tab heading='Chat Box'>
+      <br>
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">Me</span>
+        <input type="text" class="form-control" id="message" *ngIf="name" placeholder="Chat here..." (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="msgVal" />
+      </div>
+    </tab>
+    <tab heading='Emoji'>
+      <br>
+      Tab emoji content
+    </tab>
+    <tab heading='Configuration'>
+      <br>
+      <button type="button" class="btn btn-danger" (click)="showChildModal()">Leave Chat</button>
+      <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title pull-left">Logout</h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-center">
+              <p>Do you want to leave from this chat?</p>
+                <button class="btn btn-default" (click)="logout()" *ngIf="name">Yes</button>
+            </div>
+          </div>
+        </div>
+      </div>
       
-      <p>{{item.message}}</p>
-    </div>
-    <input type="text" id="message" *ngIf="name" placeholder="Chat here..." (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="msgVal" />
+    </tab>
+  </tabset>
 </div>

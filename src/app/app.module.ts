@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { AngularFireModule} from 'angularfire2';
+import { DropdownModule,TabsModule,ModalModule } from 'ng2-bootstrap';
 
 // Must export the config
 export const firebaseConfig = {
@@ -20,6 +21,9 @@ export const firebaseConfig = {
     AppComponent
   ],
   imports: [
+    DropdownModule.forRoot(),
+    TabsModule.forRoot(),
+    ModalModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule,

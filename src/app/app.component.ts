@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AngularFire, AuthProviders, AuthMethods,FirebaseListObservable } from 'angularfire2';
+
+import { ModalDirective } from 'ng2-bootstrap/modal';
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -29,9 +33,24 @@ export class AppComponent {
       method: AuthMethods.Popup,
     });
   }
+  
+  logout() {
+     this.af.auth.logout();
+     location.reload();
+  }
 
   chatSend(theirMessage: string){
     this.items.push({ message: theirMessage, name: this.name.facebook.displayName});
     this.msgVal = '';
+  }
+
+  @ViewChild('childModal') public childModal:ModalDirective;
+ 
+  public showChildModal():void {
+    this.childModal.show();
+  }
+ 
+  public hideChildModal():void {
+    this.childModal.hide();
   }
 }
