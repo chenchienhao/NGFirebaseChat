@@ -1,45 +1,76 @@
 <div class="container">
-  <div class="chat-container" *ngFor="let item of items | async">
-    <a href="#">{{item.name}}</a>
+  <div class="row">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+          </a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <form class="navbar-form navbar-right">
 
-    <p>{{item.message}}</p>
-  </div>
-  <button class="btn btn-default" (click)="login()" *ngIf="!name">Login With Facebook</button>
-  <tabset *ngIf="name">
-    <tab heading='Chat Box'>
-      <br>
-       <!--
-      <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1">Me</span>
-       <input type="text" class="form-control" id="message" *ngIf="name" placeholder="Chat here..." (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="msgVal" />
-      </div>-->
-      <emoji-input
-        [class]="form-control" 
-        (keyup.enter)="chatSend($event.target.value)" 
-        [popupAnchor]="'bottom'"
-        [(model)]="msgVal">
-      </emoji-input>
-    </tab>
-    <tab heading='Configuration'>
-      <br>
-      <button type="button" class="btn btn-danger" (click)="showChildModal()">Leave Chat</button>
-      <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title pull-left">Logout</h4>
-              <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <button class="btn btn-primary" (click)="login()" *ngIf="!name">Login With Facebook</button>
+            <button type="button" class="btn btn-danger" (click)="showChildModal()" *ngIf="name">Leave Chat</button>
+            <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title pull-left">Logout</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body text-center">
+                    <p>Doyou want to leave from this chat?</p>
+                    <button class="btn btn-default" (click)="logout()" *ngIf="name">Yes</button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="modal-body text-center">
-              <p>Do you want to leave from this chat?</p>
-                <button class="btn btn-default" (click)="logout()" *ngIf="name">Yes</button>
-            </div>
-          </div>
+          </form>
         </div>
       </div>
-      
-    </tab>
-  </tabset>
+    </nav>
+  </div>
+  <div class="row">
+    <div *ngIf="name">
+      <div class="chat-container" *ngFor="let item of items | async">
+        <a href="#">{{item.name}}</a>
+
+        <p>{{item.message}}</p>
+      </div>
+    </div>
+    <div *ngIf="!name">
+      <h1>Welcome to join us!</h1>
+    </div>
+  </div>
+  <div class="row">
+    <nav class="navbar navbar-default navbar-fixed-bottom" *ngIf="name">
+      <div class="container" style="margin-bottom: 1cm;">
+      <tabset *ngIf="name">
+        <tab heading='Chat Box'>
+          <br>
+          <!--
+          <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Me</span>
+          <input type="text" class="form-control" id="message" *ngIf="name" placeholder="Chat here..." (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="msgVal" />
+          </div>-->
+          <emoji-input
+            [id]="message"
+            [class]="form-control" 
+            (keyup.enter)="chatSend($event.target.value)" 
+            [popupAnchor]="'bottom'"
+            [(model)]="msgVal">
+          </emoji-input>
+        </tab>
+        <tab heading='Configuration'>
+          <br>
+          <p>We are working on it...</p>
+          
+        </tab>
+      </tabset>
+      </div>
+    </nav>
+  </div>
 </div>

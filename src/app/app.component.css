@@ -2,15 +2,6 @@
     display:block;
     width:100%;
 }
-.chat-container:nth-child(4) {
-    opacity: .8;
-}
-.chat-container:nth-child(3) {
-    opacity: .6;
-}
-.chat-container:nth-child(2) {
-    opacity: .4;
-}
 
 .chat-container a {
     text-transform: uppercase;
