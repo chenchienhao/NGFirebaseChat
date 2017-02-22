@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { AngularFireModule} from 'angularfire2';
 import { DropdownModule,TabsModule,ModalModule } from 'ng2-bootstrap';
 
+import { EmojiModule } from 'angular2-emoji';
+
 // Must export the config
 export const firebaseConfig = {
   apiKey: "AIzaSyAcK42VWjJkwUc-qx0NYnKHaqXdnsc826E",
@@ -21,6 +23,7 @@ export const firebaseConfig = {
     AppComponent
   ],
   imports: [
+    EmojiModule,
     DropdownModule.forRoot(),
     TabsModule.forRoot(),
     ModalModule.forRoot(),

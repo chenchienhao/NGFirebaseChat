@@ -10,6 +10,7 @@ import { ModalDirective } from 'ng2-bootstrap/modal';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  
   items: FirebaseListObservable<any>;
   name: any;
   msgVal: string = '';

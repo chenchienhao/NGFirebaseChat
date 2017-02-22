@@ -8,14 +8,17 @@
   <tabset *ngIf="name">
     <tab heading='Chat Box'>
       <br>
+       <!--
       <div class="input-group">
         <span class="input-group-addon" id="basic-addon1">Me</span>
-        <input type="text" class="form-control" id="message" *ngIf="name" placeholder="Chat here..." (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="msgVal" />
-      </div>
-    </tab>
-    <tab heading='Emoji'>
-      <br>
-      Tab emoji content
+       <input type="text" class="form-control" id="message" *ngIf="name" placeholder="Chat here..." (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="msgVal" />
+      </div>-->
+      <emoji-input
+        [class]="form-control" 
+        (keyup.enter)="chatSend($event.target.value)" 
+        [popupAnchor]="'bottom'"
+        [(model)]="msgVal">
+      </emoji-input>
     </tab>
     <tab heading='Configuration'>
       <br>
