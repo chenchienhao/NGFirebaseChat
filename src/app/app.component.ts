@@ -14,6 +14,7 @@ export class AppComponent {
   items: FirebaseListObservable<any>;
   name: any;
   msgVal: string = '';
+  time: string;
   
   constructor(public af: AngularFire){
     this.items = af.database.list('/messages',{
@@ -41,7 +42,8 @@ export class AppComponent {
   }
 
   chatSend(theirMessage: string){
-    this.items.push({ message: theirMessage, name: this.name.facebook.displayName});
+    var now = new Date();
+    this.items.push({ message: theirMessage, name: this.name.facebook.displayName, url: this.name.facebook.providerId+"/"+this.name.facebook.uid, foto: this.name.facebook.photoURL, time: now.getFullYear()+"/"+now.getMonth()+"/"+now.getDate()+" "+now.getHours()+":"+now.getMinutes()});
     this.msgVal = '';
   }
 

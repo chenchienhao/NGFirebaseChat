@@ -4,14 +4,13 @@
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="#">
-            <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+           Simple Chatroom
           </a>
         </div>
         <div class="collapse navbar-collapse">
-          <form class="navbar-form navbar-right">
-
-            <button class="btn btn-primary" (click)="login()" *ngIf="!name">Login With Facebook</button>
-            <button type="button" class="btn btn-danger" (click)="showChildModal()" *ngIf="name">Leave Chat</button>
+          <ul class="nav navbar-nav navbar-right">
+            <li><button type="button" class="btn btn-primary navbar-btn" (click)="login()" *ngIf="!name">Login With Facebook</button></li>
+            <li><button type="button" class="btn btn-danger navbar-btn" (click)="showChildModal()" *ngIf="name">Leave Chat</button></li>
             <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-sm">
                 <div class="modal-content">
@@ -28,21 +27,27 @@
                 </div>
               </div>
             </div>
-          </form>
+          </ul>
         </div>
       </div>
     </nav>
   </div>
   <div class="row">
+    <div class="container">
     <div *ngIf="name">
       <div class="chat-container" *ngFor="let item of items | async">
-        <a href="#">{{item.name}}</a>
-
-        <p>{{item.message}}</p>
+        <br>
+        <a href="https://www.{{item.url}}" style="text-decoration: none">{{item.name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a> <span class="text-muted small" style="float: right;">{{item.time}}</span><br>
+        <img src="{{item.foto}}" style="vertical-align: middle; margin: 0.25em 1em 1em 0.5em;" height="40" width="40"> <span>:  {{item.message}}</span>
       </div>
     </div>
+    </div>
     <div *ngIf="!name">
+      <div class="jumbotron">
       <h1>Welcome to join us!</h1>
+      <p>It's a simple Chat application, use <a href="https://angular.io/">Angular framework</a>, <a href="https://firebase.google.com/">Firebase database</a> and <a href="http://getbootstrap.com/">Bootstrap</a>!</p>
+      <p>Developed by: <a href="https://github.com/chenchienhao/NGFirebaseChat">Chen, Chien-Hao.</a></p>
+      </div>
     </div>
   </div>
   <div class="row">
