@@ -19,7 +19,7 @@ export class AppComponent {
   constructor(public af: AngularFire){
     this.items = af.database.list('/messages',{
       query:{
-        limitToLast: 5
+        limitToLast: 4
       }
     });
     
@@ -43,7 +43,8 @@ export class AppComponent {
 
   chatSend(theirMessage: string){
     var now = new Date();
-    this.items.push({ message: theirMessage, name: this.name.facebook.displayName, url: this.name.facebook.providerId+"/"+this.name.facebook.uid, foto: this.name.facebook.photoURL, time: now.getFullYear()+"/"+now.getMonth()+"/"+now.getDate()+" "+now.getHours()+":"+now.getMinutes()});
+    var month = ((now.getMonth() + 1) < 10) ? '0' + (now.getMonth() + 1) : (now.getMonth() + 1);
+    this.items.push({ message: theirMessage, name: this.name.facebook.displayName, url: this.name.facebook.providerId+"/"+this.name.facebook.uid, foto: this.name.facebook.photoURL, time: now.getFullYear()+"/"+month+"/"+now.getDate()+" "+now.getHours()+":"+now.getMinutes()});
     this.msgVal = '';
   }
 
