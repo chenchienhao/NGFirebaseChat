@@ -1,67 +1,55 @@
-
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Logout</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <p>Do you want to leave from this chat?</p>
+        <button class="btn btn-default" (click)="logout()" *ngIf="name">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="container">
-  <div class="row">
-    <nav class="navbar navbar-default">
-      <div class="container">
-        <div class="collapse navbar-collapse">
+    <div class="row">
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+        <div class="container-fluid">
           <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-              Simple Chatroom
-            </a>
-        </div>
-          <ul class="nav navbar-collapse navbar-right">
-            <li><button type="button" class="btn btn-primary navbar-btn" (click)="login()" *ngIf="!name">Login Facebook</button></li>
-            <li><button type="button" class="btn btn-danger navbar-btn" (click)="showChildModal()" *ngIf="name">Leave Chat</button></li>
-            <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title pull-left">Logout</h4>
-                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body text-center">
-                    <p>Doyou want to leave from this chat?</p>
-                    <button class="btn btn-default" (click)="logout()" *ngIf="name">Yes</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <a class="navbar-brand" href="#">Simple Chatroom</a>
+          </div>
+          <ul class="nav navbar-nav navbar-right">
+            <li (click)="showChildModal()" *ngIf="name"><a href="#"><span class="glyphicon glyphicon glyphicon-log-out"></span> Logout</a></li>
+            <li (click)="login()" *ngIf="!name"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           </ul>
         </div>
+        </div>
+      </nav>
+    </div>
+    <div class="row scroll">
+      <div *ngIf="name">
+        <div class="chat-message" *ngFor="let item of items | async">
+            <a href="https://www.{{item.url}}" style="text-decoration: none">{{item.name}}</a> <span class="text-muted small" style="float: right;">{{item.time}}</span><br>
+            <img src="{{item.foto}}" style="vertical-align: middle; margin: 0.25em 1em 1em 0.5em;" height="40" width="40"/> <span>:  {{item.message}}</span>
+        </div>
       </div>
-    </nav>
-  </div>
-  <div class="row">
-    <div class="container">
-    <div *ngIf="name">
-      <div class="chat-container" *ngFor="let item of items | async">
-        <br>
-        <a href="https://www.{{item.url}}" style="text-decoration: none">{{item.name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a> <span class="text-muted small" style="float: right;">{{item.time}}</span><br>
-        <img src="{{item.foto}}" style="vertical-align: middle; margin: 0.25em 1em 1em 0.5em;" height="40" width="40"> <span>:  {{item.message}}</span>
+    
+      <div *ngIf="!name">
+        <div class="jumbotron">
+          <h1>Welcome to join us!</h1>
+          <p>It's a simple Chat application, use <a href="https://angular.io/">Angular framework</a>, <a href="https://firebase.google.com/">Firebase database</a> and <a href="http://getbootstrap.com/">Bootstrap</a>!</p>
+          <p>Developed by: <a href="https://github.com/chenchienhao/NGFirebaseChat">Chen, Chien-Hao.</a></p>
+        </div>
       </div>
     </div>
-    </div>
-    <div *ngIf="!name">
-      <div class="jumbotron">
-      <h1>Welcome to join us!</h1>
-      <p>It's a simple Chat application, use <a href="https://angular.io/">Angular framework</a>, <a href="https://firebase.google.com/">Firebase database</a> and <a href="http://getbootstrap.com/">Bootstrap</a>!</p>
-      <p>Developed by: <a href="https://github.com/chenchienhao/NGFirebaseChat">Chen, Chien-Hao.</a></p>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <nav class="navbar navbar-default navbar-fixed-bottom" *ngIf="name">
-      <div class="container" style="margin-bottom: 1cm;">
-      <tabset *ngIf="name">
-        <tab heading='Chat Box'>
-          <br>
-          <!--
-          <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Me</span>
-          <input type="text" class="form-control" id="message" *ngIf="name" placeholder="Chat here..." (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="msgVal" />
-          </div>-->
+
+    <footer class="footer">
+      <nav class="navbar navbar-default navbar-fixed-bottom" *ngIf="name">
+        <div class="container" style="padding: 0.2cm 0.2cm 0.2cm 0.2cm;">
           <emoji-input
             [id]="message"
             [class]="form-control" 
@@ -69,14 +57,7 @@
             [popupAnchor]="'bottom'"
             [(model)]="msgVal">
           </emoji-input>
-        </tab>
-        <tab heading='Configuration'>
-          <br>
-          <p>We are working on it...</p>
-          
-        </tab>
-      </tabset>
-      </div>
-    </nav>
-  </div>
+        </div>
+      </nav>
+    </footer>
 </div>

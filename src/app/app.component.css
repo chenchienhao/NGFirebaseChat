@@ -1,9 +1,12 @@
-.chat-container {
-    display:block;
-    width:100%;
+.scroll {
+    overflow: auto !important;
+    position: absolute;
+    height: 70%;
+    width: 100%;
+    padding: 0px 80px 0px 80px;
 }
 
-.chat-container a {
+.chat-message a {
     text-transform: uppercase;
     font-weight:bold;
     color:#816A98;
@@ -11,7 +14,12 @@
     letter-spacing:2px;
 }
 
-.chat-container p {
-    padding:1.1em;
-    margin: 5px 0 10px 0;
+@media (max-width: 768px){
+.scroll {
+    padding: 20px;
+}
+.chat-container{
+    overflow: auto !important;
+}
+
 }
