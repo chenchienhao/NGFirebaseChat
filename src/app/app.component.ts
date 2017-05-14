@@ -14,7 +14,6 @@ export class AppComponent {
   name: any;
   msgVal: string = '';
   time: string;
-  imageUrl: any;
   item: any;
   //image box
   activeColor: string = 'green';
