@@ -34,7 +34,13 @@
       <div *ngIf="name">
         <div class="chat-message" *ngFor="let item of items | async">
             <a href="https://www.{{item.url}}" style="text-decoration: none">{{item.name}}</a> <span class="text-muted small" style="float: right;">{{item.time}}</span><br>
-            <img src="{{item.foto}}" style="vertical-align: middle; margin: 0.25em 1em 1em 0.5em;" height="40" width="40"/> <span>:  {{item.message}}</span>
+            <img src="{{item.foto}}" style="vertical-align: middle; margin: 0.25em 1em 1em 0.5em;" height="40" width="40"/>
+            <span *ngIf="item.type=='message'">:  
+              {{item.message}}
+            </span>
+            <span *ngIf="item.type=='image'">:  
+              <img *ngIf="item.type=='image'" [src]="item.message" style="vertical-align: middle; margin: 0.25em 1em 1em 0.5em; max-height:200px; max-width:200px;" />
+            </span>
         </div>
       </div>
     
@@ -50,13 +56,37 @@
     <footer class="footer">
       <nav class="navbar navbar-default navbar-fixed-bottom" *ngIf="name">
         <div class="container" style="padding: 0.2cm 0.2cm 0.2cm 0.2cm;">
-          <emoji-input
-            [id]="message"
-            [class]="form-control" 
-            (keyup.enter)="chatSend($event.target.value)" 
-            [popupAnchor]="'bottom'"
-            [(model)]="msgVal">
-          </emoji-input>
+          <ul class="nav nav-tabs">
+            <li id="tab_home" class="active"><a data-toggle="tab" href="#home">Chat</a></li>
+            <li id="tab_image" ><a data-toggle="tab" href="#image">Image</a></li>
+          </ul>
+          <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+              <emoji-input
+                [id]="message"
+                [class]="form-control" 
+                (keyup.enter)="chatSend($event.target.value)" 
+                [popupAnchor]="'bottom'"
+                [(model)]="msgVal">
+              </emoji-input>
+            </div>
+            <div id="image" class="tab-pane fade">
+              <form (submit)="imageSend()">
+              <div class="form-group">
+                <label class="uploader" ondragover="return false;"
+                    [class.loaded]="loaded" 
+                    [style.outlineColor]="dragging ? activeColor : baseColor"
+                    (dragenter)="handleDragEnter()"
+                    (dragleave)="handleDragLeave()"
+                    (drop)="handleDrop($event)">
+                    <img [src]="imageSrc" (load)="handleImageLoad()" [class.loaded]="imageLoaded"/>
+                    <input id="up_image" type="file" [(ngModel)]="up_image" name="up_image" accept="image/*" (change)="handleInputChange($event)">
+                <label style="opacity: 0.5;">Image</label></label>
+                <input type="submit" value="submit" class="btn btn-success">
+              </div>
+              </form>
+            </div>
+          </div>
         </div>
       </nav>
     </footer>

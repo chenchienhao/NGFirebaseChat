@@ -2,12 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
 import { AppComponent } from './app.component';
 import { AngularFireModule} from 'angularfire2';
 import { DropdownModule,TabsModule,ModalModule } from 'ng2-bootstrap';
-
 import { EmojiModule } from 'angular2-emoji';
+import * as firebase from 'firebase';
 
 // Must export the config
 export const firebaseConfig = {
