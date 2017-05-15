@@ -7,7 +7,6 @@ import { AngularFireModule} from 'angularfire2';
 import { DropdownModule,TabsModule,ModalModule } from 'ng2-bootstrap';
 import { EmojiModule } from 'angular2-emoji';
 import * as firebase from 'firebase';
-
 // Must export the config
 export const firebaseConfig = {
   apiKey: "AIzaSyAcK42VWjJkwUc-qx0NYnKHaqXdnsc826E",

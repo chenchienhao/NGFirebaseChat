@@ -32,6 +32,8 @@
     </div>
     <div id="scroll_messages" class="row scroll">
       <div *ngIf="name">
+        <div class="container">
+        <div class="container-fluid">
         <div class="chat-message" *ngFor="let item of items | async">
             <a href="https://www.{{item.url}}" style="text-decoration: none">{{item.name}}</a> <span class="text-muted small" style="float: right;">{{item.time}}</span><br>
             <img src="{{item.foto}}" style="vertical-align: middle; margin: 0.25em 1em 1em 0.5em;" height="40" width="40"/>
@@ -41,6 +43,8 @@
             <span *ngIf="item.type=='image'">:  
               <img *ngIf="item.type=='image'" [src]="item.message" style="vertical-align: middle; margin: 0.25em 1em 1em 0.5em; max-height:200px; max-width:200px;" />
             </span>
+        </div>
+        </div>
         </div>
       </div>
     

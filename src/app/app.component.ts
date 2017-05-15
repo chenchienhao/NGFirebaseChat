@@ -9,7 +9,6 @@ import * as firebase from 'firebase';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
   items: FirebaseListObservable<any>;
   name: any;
   msgVal: string = '';
