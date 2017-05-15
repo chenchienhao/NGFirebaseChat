@@ -28,15 +28,20 @@ export class AppComponent {
   constructor(public af: AngularFire){
     this.items = af.database.list('/messages',{
       query:{
-        limitToLast: 8
+        limitToLast: 6
       }
     });
-    
+    this.items.subscribe(snapshots => {
+      var elem = document.getElementById('scroll_messages');
+      elem.scrollTop = elem.scrollHeight;
+    });
     this.af.auth.subscribe(auth => {
       if(auth) {
         this.name = auth;
       }
     });
+
+    
   }
 
   login(){
@@ -57,7 +62,6 @@ export class AppComponent {
     this.items.push({ type:"message", message: theirMessage, name: this.name.facebook.displayName, url: this.name.facebook.providerId+"/"+this.name.facebook.uid, foto: this.name.facebook.photoURL, time: now.getFullYear()+"/"+month+"/"+now.getDate()+" "+now.getHours()+":"+now.getMinutes()});
     this.msgVal = '';
   }
-
   imageSend(){
     document.getElementById("tab_home").className = "active";
     document.getElementById("tab_image").classList.remove('active');
