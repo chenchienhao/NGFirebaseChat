@@ -39,7 +39,11 @@
               {{item.message}}
             </span>
             <span *ngIf="item.type=='image'">:  
-              <img *ngIf="item.type=='image'" [src]="item.message" style="vertical-align: middle; margin: 0.25em 1em 1em 0.5em; max-height:200px; max-width:200px;" />
+              <img (load)="image_message_loaded=false" [hidden]="image_message_loaded" src="../assets/img/spinner.gif"/>
+              <img
+                (load)="image_message_loaded=true"
+                [src]="item.message" 
+                style="vertical-align: middle; margin: 0.25em 1em 1em 0.5em; max-height:200px; max-width:200px;" />
             </span>
         </div>
       </div>
