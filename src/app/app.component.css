@@ -6,10 +6,16 @@
     padding: 0px 80px 0px 80px;
 }
 
-.chat-message a {
+.chat-message .userTag {
     text-transform: uppercase;
     font-weight:bold;
     color:#816A98;
+    font-size:.8em;
+    letter-spacing:2px;
+}
+.chat-message .downloadFile {
+    font-weight:bold;
+    color:#FA5858;
     font-size:.8em;
     letter-spacing:2px;
 }

@@ -22,6 +22,9 @@ export class AppComponent {
   loaded: boolean = false;
   imageLoaded: boolean = false;
   imageSrc: string = '';
+  isFile: boolean = false;
+  fileName: string = '';
+  boxloaded: boolean = false;
 
   
   constructor(public af: AngularFire){
@@ -83,14 +86,27 @@ export class AppComponent {
     var month = ((now.getMonth() + 1) < 10) ? '0' + (now.getMonth() + 1) : (now.getMonth() + 1);
     for(let selectedFile of [(<HTMLInputElement>document.getElementById('up_image')).files[0]]){
       if(selectedFile){
-        let path = `/image/${this.name.facebook.uid}_${(now.getFullYear()+"_"+month+"_"+now.getDate()+"_"+now.getHours()+"_"+now.getMinutes()+"_"+now.getSeconds()).toString()}`;
-        let iRef = storageRef.child(path);
-        iRef.put(selectedFile).then((snapshot) => {
-          this.items.push(
-              {type:"image", message: snapshot.downloadURL, name: this.name.facebook.displayName, url: this.name.facebook.providerId+"/"+this.name.facebook.uid, foto: this.name.facebook.photoURL, time: now.getFullYear()+"/"+month+"/"+now.getDate()+" "+now.getHours()+":"+now.getMinutes()}
-          );
-          return null;
-        });
+        if(!this.isFile){
+          let path = `/image/${this.name.facebook.uid}_${(now.getFullYear()+"_"+month+"_"+now.getDate()+"_"+now.getHours()+"_"+now.getMinutes()+"_"+now.getSeconds()).toString()}`;
+          let iRef = storageRef.child(path);
+          iRef.put(selectedFile).then((snapshot) => {
+            this.items.push(
+                {type:"image", message: snapshot.downloadURL, name: this.name.facebook.displayName, url: this.name.facebook.providerId+"/"+this.name.facebook.uid, foto: this.name.facebook.photoURL, time: now.getFullYear()+"/"+month+"/"+now.getDate()+" "+now.getHours()+":"+now.getMinutes()}
+            );
+            return null;
+          });
+        }
+        else{
+          var fileType=this.fileName.substr(this.fileName.indexOf('.'));
+          let path = `/file/${this.name.facebook.uid}_${(now.getFullYear()+"_"+month+"_"+now.getDate()+"_"+now.getHours()+"_"+now.getMinutes()+"_"+now.getSeconds()).toString()+fileType}`;
+          let iRef = storageRef.child(path);
+          iRef.put(selectedFile).then((snapshot) => {
+            this.items.push(
+                {type:"file", message: snapshot.downloadURL, fileName:this.fileName, name: this.name.facebook.displayName, url: this.name.facebook.providerId+"/"+this.name.facebook.uid, foto: this.name.facebook.photoURL, time: now.getFullYear()+"/"+month+"/"+now.getDate()+" "+now.getHours()+":"+now.getMinutes()}
+            );
+            return null;
+          });
+        }
       }
     }
   }
@@ -117,12 +133,14 @@ export class AppComponent {
     this.handleInputChange(e);
   }
   handleImageLoad() {
-    this.imageLoaded = true;
+    if(this.isFile==false)
+      this.imageLoaded = true;
   }
   handleInputChange(e) {
     var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
     var pattern = /image-*/;
     var reader = new FileReader();
+    /*
     if (!file.type.match(pattern)) {
       alert('invalid format');
       return;
@@ -130,10 +148,24 @@ export class AppComponent {
     this.loaded = false;
     reader.onload = this._handleReaderLoaded.bind(this);
     reader.readAsDataURL(file);
+    */
+    if (file.type.match(pattern)){
+      this.isFile=false;
+      this.loaded = false;
+      reader.onload = this._handleReaderLoaded.bind(this);
+      reader.readAsDataURL(file);
+    }
+    else{
+      this.fileName=file.name;
+      this.isFile=true;
+    }
+    this.boxloaded=true;
   } 
   _handleReaderLoaded(e) {
-    var reader = e.target;
-    this.imageSrc = reader.result;
-    this.loaded = true;
+    if(this.isFile==false){
+      var reader = e.target;
+      this.imageSrc = reader.result;
+      this.loaded = true;
+    }
   }
 }

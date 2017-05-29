@@ -33,17 +33,21 @@
     <div id="scroll_messages" class="row scroll">
       <div *ngIf="name">
         <div class="chat-message" *ngFor="let item of items | async">
-            <a href="https://www.{{item.url}}" style="text-decoration: none">{{item.name}}</a> <span class="text-muted small" style="float: right;">{{item.time}}</span><br>
+            <a class="userTag" href="https://www.{{item.url}}" style="text-decoration: none">{{item.name}}</a> <span class="text-muted small" style="float: right;">{{item.time}}</span><br>
             <img src="{{item.foto}}" style="vertical-align: middle; margin: 0.25em 1em 1em 0.5em;" height="40" width="40"/>
             <span *ngIf="item.type=='message'">:  
               {{item.message}}
             </span>
-            <span *ngIf="item.type=='image'">:  
-              <img (load)="image_message_loaded=false" [hidden]="image_message_loaded" src="../assets/img/spinner.gif"/>
+            <span *ngIf="item.type=='image'">:
+              <img [hidden]="image_message_loaded" src="../assets/img/spinner.gif"/>
               <img
                 (load)="image_message_loaded=true"
                 [src]="item.message" 
                 style="vertical-align: middle; margin: 0.25em 1em 1em 0.5em; max-height:200px; max-width:200px;" />
+            </span>
+            <span *ngIf="item.type=='file'">:
+              <img [hidden]="image_message_loaded" src="../assets/img/spinner.gif"/>
+              <a class="downloadFile" href="{{item.message}}" (load)="image_message_loaded=true" download="try">{{item.fileName}}</a>
             </span>
         </div>
       </div>
@@ -62,7 +66,7 @@
         <div class="container" style="padding: 0.2cm 0.2cm 0.2cm 0.2cm;">
           <ul class="nav nav-tabs">
             <li id="tab_home" class="active"><a data-toggle="tab" href="#home">Chat</a></li>
-            <li id="tab_image" ><a data-toggle="tab" href="#image">Image</a></li>
+            <li id="tab_image" ><a data-toggle="tab" href="#image">Image/File</a></li>
           </ul>
           <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
@@ -85,9 +89,12 @@
                       (dragenter)="handleDragEnter()"
                       (dragleave)="handleDragLeave()"
                       (drop)="handleDrop($event)">
-                      <img [src]="imageSrc" (load)="handleImageLoad()" [class.loaded]="imageLoaded"/>
-                      <input id="up_image" type="file" [(ngModel)]="up_image" name="up_image" accept="image/*" (change)="handleInputChange($event)">
-                  Image</label>
+                      <img *ngIf="!isFile" [src]="imageSrc" (load)="handleImageLoad()" [class.loaded]="imageLoaded"/>
+                      <p *ngIf="isFile">{{fileName}}</p>
+                      <p *ngIf="!boxloaded">Here</p>
+                      <!--<input id="up_image" type="file" [(ngModel)]="up_image" name="up_image" accept="image/*" (change)="handleInputChange($event)">-->
+                      <input id="up_image" type="file" [(ngModel)]="up_image" name="up_image" (change)="handleInputChange($event)">
+                  </label>
                   </div>
                   <div class="col-2" style="display: table-cell; vertical-align: bottom;">
                     <input type="submit" value="submit" class="btn btn-success" style=" margin-left: 10px;">
